@@ -36,6 +36,12 @@ Crie a virtual env e instale as dependências
   pip install -r requirements.txt
 ```
 
+Instale o FFMPEG
+
+```bash
+  sudo apt install ffmpeg
+```
+
 Inicie o projeto
 
 ```bash
@@ -47,7 +53,7 @@ Inicie o projeto
 
 **Front-end:** QT Design, QT, PySide2
 
-**Back-end:** Python, Pytube
+**Back-end:** Python, Pytube, FFMPEG
 
 
 ## Funcionalidades

@@ -6,6 +6,7 @@ import os
 import re
 from pytube import YouTube
 from pytube import Playlist
+from pydub import AudioSegment
 import webbrowser
 
 class MainUI(QMainWindow, Ui_MainWindow):
@@ -118,7 +119,7 @@ class Worker(QThread):
             path  = path+'/../Downloads/'+play.title
 
             self.result.emit("*****\n")
-            self.result.emit("Título: " + play.title+"\n")
+            self.result.emit(f"Título: {play.title}\n")
             self.result.emit("Total de " + str(len(play.video_urls))+" vídeos "+"\n")
             self.result.emit("Pertence a: " + play.owner+"\n")
             self.result.emit("Salvando em: " + path+"\n")
@@ -130,11 +131,17 @@ class Worker(QThread):
                 self.status.emit(f"Baixando {self.downloadedVideos+1}/{self.totalVideos}: " + yt.title)
                 video = yt.streams.filter(only_audio=True).first()
                 downloaded_file = video.download(path)
+
                 base, ext = os.path.splitext(downloaded_file)
                 new_file = base + '.mp3'
-                os.rename(downloaded_file, new_file)
+              
+                self.result.emit("\nConvertendo para mp3...")
+                self.status.emit(f"Convertendo {yt.title} para mp3...")
+                AudioSegment.from_file(downloaded_file).export(new_file, format="mp3")
+                os.remove(downloaded_file)
+
                 self.result.emit("\nDownload completo.\n")
-                self.status.emit("Download completo de " + yt.title)
+                self.status.emit(f"Download completo de {yt.title}")
                 self.result.emit("******")
                 self.downloadedVideos+=1
                         
