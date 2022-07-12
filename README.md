@@ -1,5 +1,5 @@
 
-![Logo](https://pngimg.com/uploads/youtube/small/youtube_PNG6.png)
+![Logo](https://github.com/FelipeSamuel/YoutubeMP3/blob/main/assets/icon.png?raw=true)
 
 
 # Youtube PlayList para MP3
@@ -10,6 +10,7 @@ determinada PlayList e converte-la para MP3.
 
 ## Screenshots
 
+![App Screenshot](https://github.com/FelipeSamuel/YoutubeMP3/blob/main/assets/home.png?raw=true)
 ![App Screenshot](https://github.com/FelipeSamuel/YoutubeMP3/blob/main/assets/screenshot.png?raw=true)
 
 
