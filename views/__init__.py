@@ -11,6 +11,7 @@ import webbrowser
 class MainUI(QMainWindow, Ui_MainWindow):
 
     result =''
+    downloaded = False
 
     def __init__(self):
         super(MainUI, self).__init__()
@@ -39,7 +40,12 @@ class MainUI(QMainWindow, Ui_MainWindow):
         self.lbStatus.setVisible(loading)
         self.btnDownload.setEnabled(not loading)
         self.leLink.setEnabled(not loading)
+        self.teResult.setVisible(loading)
 
+        if (not loading):
+            self.resize(519, 200)
+        else:
+            self.resize(519, 401)
 
 
     def download(self):
@@ -68,8 +74,13 @@ class MainUI(QMainWindow, Ui_MainWindow):
 
 
     def onEnd(self):
+        self.resize(519, 401)
         QMessageBox.information(self, '...', 'Download finalizado')
-
+        self.downloaded = True
+        self.lbStatus.setText('Download finalizado')
+        self.lbStatus.setVisible(True)
+        self.teResult.setVisible(True)
+        
     def onStatus(self, tex):
         self.lbStatus.setText(tex)
 
@@ -103,12 +114,14 @@ class Worker(QThread):
             play = Playlist(playlist_url)
             play._video_regex = re.compile(r"\"url\":\"(/watch\?v=[\w-]*)")
 
-            path  = '../Downloads/'+play.title
+            path = os.path.dirname(os.path.abspath(__file__))
+            path  = path+'/../Downloads/'+play.title
 
             self.result.emit("*****\n")
             self.result.emit("Título: " + play.title+"\n")
             self.result.emit("Total de " + str(len(play.video_urls))+" vídeos "+"\n")
             self.result.emit("Pertence a: " + play.owner+"\n")
+            self.result.emit("Salvando em: " + path+"\n")
             self.result.emit("*****\n")
             self.totalVideos = len(play.video_urls)
             for url in play.video_urls:
